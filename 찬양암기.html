@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>찬양 암기 도우미</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;padding:0 0 60px;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    background:linear-gradient(160deg,#0f0c29,#1a1040,#0d1b3e);min-height:100vh;color:#fff}
+
+  /* 공통 */
+  .wrap{max-width:650px;margin:0 auto;padding:0 14px}
+  .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;margin-bottom:12px}
+  .vtag{color:#fcd34d;font-weight:700;font-size:.72rem;letter-spacing:2px;display:block;margin-bottom:9px;text-transform:uppercase}
+  .btn{border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:700;font-family:inherit;font-size:.85rem;transition:.15s}
+  .btn:active{opacity:.75}
+  .inp{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:5px;
+    color:#fff;padding:6px 10px;outline:none;font-family:inherit;font-size:.92rem}
+
+  /* 헤더 */
+  #header{background:rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);padding:14px 18px 11px;
+    position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+  #header h1{margin:0;font-size:1.18rem;color:#fcd34d;cursor:pointer}
+  #header .sub{font-size:.58rem;color:rgba(255,255,255,.3);letter-spacing:1.5px;margin-top:1px}
+  #back-btn{display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    color:rgba(255,255,255,.65);padding:6px 13px;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer}
+
+  /* 목록 */
+  #list-view .song-card{display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+    padding:15px 18px;border-radius:12px;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);margin-bottom:10px;transition:.15s}
+  #list-view .song-card:active{background:rgba(255,255,255,.09)}
+  .song-title{font-weight:600;font-size:.97rem;color:#fff}
+  .song-sub{font-size:.7rem;color:rgba(255,255,255,.38);margin-top:3px}
+  .arrow{color:#fcd34d;font-size:1.1rem}
+
+  /* 모드 탭 */
+  #mode-tabs{display:flex;gap:5px;flex-wrap:wrap;margin:14px 0}
+  #mode-tabs button{flex:1 0 30%;font-size:.78rem;padding:9px 4px;
+    background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1);border-radius:8px}
+  #mode-tabs button.active{background:#fcd34d;color:#1a0f00;border-color:#fcd34d}
+  #mode-tabs button.active.weak{background:#f87171;border-color:#f87171;color:#fff}
+
+  /* 슬라이더 */
+  #slider-box{background:rgba(255,255,255,.07);border:1px solid rgba(252,211,77,.3);
+    border-radius:10px;padding:13px 16px;margin-bottom:16px}
+  #slider-box .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.88rem}
+  #blank-rate{color:#fcd34d;font-weight:700;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:#fcd34d;cursor:pointer}
+  .range-hint{display:flex;justify-content:space-between;font-size:.65rem;color:rgba(255,255,255,.3);margin-top:3px}
+
+  /* 빈칸 입력 */
+  .blank-inp{display:inline-block;vertical-align:middle;margin:0 3px 2px;height:28px;
+    background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.25);
+    border-radius:4px;color:#fff;padding:0 5px;font-size:.9rem;font-family:inherit;outline:none;text-align:center}
+  .blank-inp.ok{border-color:#4ade80;background:rgba(74,222,128,.12)}
+  .blank-inp.ng{border-color:#f87171;background:rgba(248,113,113,.12)}
+
+  /* 줄 입력 */
+  .line-inp{width:97%;display:block;margin:4px 0;padding:7px 10px;background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.18);border-radius:6px;color:#fff;font-size:.9rem;
+    font-family:inherit;outline:none}
+  .line-inp.ok{border-color:#4ade80}
+  .line-inp.ng{border-color:#f87171}
+  .line-hint{color:rgba(255,255,255,.45);margin:4px 0;font-size:.88rem}
+
+  /* 취약점 */
+  .lv-1{background:rgba(253,224,71,.35);border-radius:3px;padding:0 2px}
+  .lv-2{background:rgba(251,146,60,.55);border-radius:3px;padding:0 2px}
+  .lv-3{background:rgba(248,113,113,.75);border-radius:3px;padding:0 2px}
+  .line-lv-1{border-bottom:2px solid #fde047}
+  .line-lv-2{border-bottom:2px solid #fb923c}
+  .line-lv-3{border-bottom:3px solid #f87171;font-weight:700}
+
+  /* 채점 버튼 */
+  .grade-btn{background:#333;color:#fcd34d;width:100%;margin-top:10px;padding:9px;border-radius:8px;
+    border:none;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit}
+  .grade-btn:active{opacity:.75}
+
+  /* 과학 박스 */
+  .sci-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
+  .sci-item{padding:10px;background:rgba(255,255,255,.03);border-radius:8px}
+  .sci-item strong{display:block;font-size:.75rem;color:#fcd34d;margin-bottom:3px}
+  .sci-item span{font-size:.67rem;color:rgba(255,255,255,.38);line-height:1.5}
+  .tip-box{background:rgba(252,211,77,.06);border:1px solid rgba(252,211,77,.17);
+    border-radius:10px;padding:11px 14px;margin-bottom:18px;font-size:.8rem;
+    color:rgba(255,255,255,.62);line-height:1.6}
+
+  /* 취약점 없을때 */
+  .no-weak{text-align:center;padding:30px 0;color:rgba(255,255,255,.35);font-size:.9rem;line-height:2}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div id="header">
+  <div onclick="showList()">
+    <div id="header-title">✝ 찬양 암기 도우미</div>
+    <div class="sub">WORSHIP LYRIC TRAINER</div>
+  </div>
+  <button id="back-btn" onclick="showList()">← 목록</button>
+</div>
+
+<!-- 목록 뷰 -->
+<div id="list-view" class="wrap" style="padding-top:18px"></div>
+
+<!-- 학습 뷰 -->
+<div id="study-view" class="wrap" style="display:none;padding-top:14px"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   1. 데이터
+═══════════════════════════════════════ */
+const SONGS = [
+  { id:384, title:"384장 — 나의 갈 길 다 가도록", verses:[
+    {label:"1절", lines:["나의 갈 길 다 가도록 예수 인도하시니","내 주 안에 있는 긍휼 어찌 의심하리요","믿음으로 사는 자는 하늘 위로 받겠네","무슨 일을 만나든지 만사 형통 하리라","무슨 일을 만나든지 만사 형통 하리라"]},
+    {label:"2절", lines:["나의 갈 길 다 가도록 예수 인도하시니","어려운 일 당한 때도 족한 은혜 주시네","나는 심히 고단하고 영혼 매우 갈하나","나의 앞에 반석에서 샘물 나게 하시네","나의 앞에 반석에서 샘물 나게 하시네"]},
+    {label:"3절", lines:["나의 갈 길 다 가도록 예수 인도하시니","그의 사랑 어찌 큰지 말로 할 수 없도다","성령 감화 받은 영혼 하늘 나라 갈 때에","영영 부를 나의 찬송 예수 인도하셨네","영영 부를 나의 찬송 예수 인도하셨네"]}
+  ]},
+  { id:407, title:"407장 — 구주와 함께 나 죽었으니", verses:[
+    {label:"1절", lines:["구주와 함께 나 죽었으니 구주와 함께 나 살았도다","영광의 그날이 이르도록 언제나 주만 바라봅니다"]},
+    {label:"후렴", lines:["언제나 주만 바라봅니다 언제나 주만 바라봅니다","영광의 그날이 이르도록 언제나 주만 바라봅니다"]},
+    {label:"2절", lines:["맘속에 시험이 일어날 때에 주께서 나를 지키시네","주님이 나를 돌보시니 언제나 주만 바라봅니다"]},
+    {label:"3절", lines:["기쁘나 슬프나 주님과 함께 늘 동거하며 살아가리라","주님의 사랑 내 맘에 넘쳐 언제나 주만 바라봅니다"]}
+  ]},
+  { id:293, title:"293장 — 주의 사랑 비칠 때에", verses:[
+    {label:"1절", lines:["주의 사랑 비칠 때에 기쁨 오네","근심 걱정 물러가고 기쁨 오네","기도 응답 주시니 참 기쁘고","주의 사랑 비칠 때에 기쁨 오네"]},
+    {label:"후렴", lines:["주의 사랑 비칠 때에 비칠 때에","환한 웃음 꽃 피고 기쁨 오네","주의 사랑 비칠 때에 비칠 때에","세상 밝게 비치네 기쁨 오네"]},
+    {label:"2절", lines:["주의 사랑 비칠 때에 소망 생겨","캄캄한 길 비추니 소망 생겨","주의 음성 들리니 참 즐겁고","주의 사랑 비칠 때에 소망 생겨"]},
+    {label:"3절", lines:["주의 사랑 비칠 때에 평화 오네","우리 마음 다스려 평화 오네","주님 함께 계시니 겁 없도다","주의 사랑 비칠 때에 평화 오네"]}
+  ]},
+  { id:94, title:"94장 — 주 예수보다 더 귀한 것은 없네", verses:[
+    {label:"1절", lines:["주 예수보다 더 귀한 것은 없네 이 세상 부귀와 바꿀 수 없네","영 죽은 내 대신 돌아가신 그 놀라운 사랑 잊지 못해"]},
+    {label:"후렴", lines:["세상 즐거움 다 버리고 세상 자랑 다 버렸네","주 예수보다 더 귀한 것은 없네 예수 밖에는 없네"]},
+    {label:"2절", lines:["주 예수보다 더 귀한 것은 없네 이 세상 명예와 바꿀 수 없네","이전에 즐기던 세상 일도 주 사랑하는 맘 뺏지 못해"]},
+    {label:"3절", lines:["주 예수보다 더 귀한 것은 없네 이 세상 행복과 바꿀 수 없네","유혹과 핍박이 몰려와도 주 섬기는 내 맘 변치 않아"]}
+  ]},
+  { id:430, title:"430장 — 주와 같이 길 가는 것", verses:[
+    {label:"1절", lines:["주와 같이 길 가는 것 즐거운 일 아닌가","우리 주님 걸어가신 발자취를 밟겠네"]},
+    {label:"후렴", lines:["한 걸음 한 걸음 주 예수와 함께","날마다 날마다 우리 걸어가리"]},
+    {label:"2절", lines:["어린 아이 같은 우리 미련하고 약하나","주의 손에 이끌리어 생명 길로 가겠네"]},
+    {label:"3절", lines:["꽃이 피는 들판이나 험한 골짜기라도","주가 인도하는 대로 주와 같이 가겠네"]},
+    {label:"4절", lines:["옛날 선지 에녹같이 우리들도 천국에","들려 올라갈 때까지 주와 같이 걷겠네"]}
+  ]}
+];
+
+const TIPS = [
+  "🧠 능동적 회상: 가사를 보는 것보다 직접 떠올리는 게 기억을 3배 강화해요.",
+  "📅 간격 반복: 1→3→7→14→30일 간격 복습이 장기기억을 만들어요.",
+  "✂️ 청킹: 절·후렴 단위로 나눠 외우면 인지 부하가 크게 줄어요.",
+  "✏️ 생성 효과: 직접 쓰고 입력할 때 기억 형성이 훨씬 강해져요.",
+];
+
+/* ═══════════════════════════════════════
+   2. 상태
+═══════════════════════════════════════ */
+let currentSong = null;
+let currentMode = "read";
+let blankRate   = 50;
+let seed        = Date.now();
+let mistakes    = {};
+
+try { const s = localStorage.getItem("hymn_mistakes"); if(s) mistakes = JSON.parse(s); } catch(e){}
+const saveMistakes = () => { try { localStorage.setItem("hymn_mistakes", JSON.stringify(mistakes)); } catch(e){} };
+
+/* ═══════════════════════════════════════
+   3. 유틸
+═══════════════════════════════════════ */
+const clean = s => (s||"").replace(/[.,!?\s]/g,"");
+const el    = id => document.getElementById(id);
+
+function seededRand(s){ s = (s*9301+49297)%233280; return {val:s/233280,s}; }
+
+function getBlankIndices(words, lineIdx, vLabel){
+  let s = seed + (vLabel.charCodeAt(0)||0) + lineIdx;
+  const idxs = words.map((_,i)=>i);
+  // Fisher-Yates shuffle with seed
+  const arr = [...idxs];
+  for(let i=arr.length-1;i>0;i--){
+    const r = seededRand(s); s=r.s;
+    const j = Math.floor(r.val*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return new Set(arr.slice(0, Math.max(1, Math.round(words.length*(blankRate/100)))));
+}
+
+function getHiddenLines(lines, vi){
+  let s = seed + vi*997;
+  const arr = lines.map((_,i)=>i);
+  for(let i=arr.length-1;i>0;i--){
+    const r=seededRand(s); s=r.s;
+    const j=Math.floor(r.val*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return new Set(arr.slice(0,Math.ceil(lines.length/2)));
+}
+
+function getLvClass(n,isLine=false){
+  if(n>=6) return isLine?"line-lv-3":"lv-3";
+  if(n>=4) return isLine?"line-lv-2":"lv-2";
+  if(n>=2) return isLine?"line-lv-1":"lv-1";
+  return "";
+}
+
+function logMistake(vLabel, li, wi, word){
+  if(!currentSong) return;
+  const key = `${currentSong.id}|${vLabel}|${li}|${wi===null?"line":wi}`;
+  if(!mistakes[key]) mistakes[key]={count:0,word,fullLine:currentSong.verses.find(v=>v.label===vLabel).lines[li]};
+  mistakes[key].count++;
+  saveMistakes();
+}
+
+/* ═══════════════════════════════════════
+   4. 뷰 전환
+═══════════════════════════════════════ */
+function showList(){
+  currentSong=null; currentMode="read";
+  el("list-view").style.display="block";
+  el("study-view").style.display="none";
+  el("back-btn").style.display="none";
+  renderList();
+}
+
+function showStudy(song){
+  currentSong=song; currentMode="read"; seed=Date.now();
+  el("list-view").style.display="none";
+  el("study-view").style.display="block";
+  el("back-btn").style.display="block";
+  renderStudy();
+}
+
+/* ═══════════════════════════════════════
+   5. 목록 렌더
+═══════════════════════════════════════ */
+function renderList(){
+  const tip = TIPS[Math.floor(Math.random()*TIPS.length)];
+  let h = `<div class="tip-box">${tip}</div>
+    <div style="font-size:.73rem;color:rgba(255,255,255,.36);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:13px">
+      내 찬양 (${SONGS.length})
+    </div>`;
+  SONGS.forEach((s,i)=>{
+    const total = Object.keys(mistakes).filter(k=>k.startsWith(s.id+"|")).length;
+    const sub   = total? `오답 기록 ${total}개` : "학습 기록 없음";
+    h+=`<div class="song-card" onclick="showStudy(SONGS[${i}])">
+      <div><div class="song-title">${s.title}</div><div class="song-sub">${sub}</div></div>
+      <div class="arrow">▶</div>
+    </div>`;
+  });
+  h+=`<div style="margin-top:28px;padding:18px;background:rgba(255,255,255,.03);border-radius:14px;border:1px solid rgba(255,255,255,.06)">
+    <div style="font-size:.7rem;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">🧬 적용된 기억 과학</div>
+    <div class="sci-grid">
+      <div class="sci-item"><strong>간격 반복</strong><span>에빙하우스 망각 곡선 기반</span></div>
+      <div class="sci-item"><strong>능동적 회상</strong><span>읽기보다 3배 기억 강화</span></div>
+      <div class="sci-item"><strong>청킹</strong><span>절 단위로 인지 부하 감소</span></div>
+      <div class="sci-item"><strong>취약점 분석</strong><span>오답 누적으로 집중 훈련</span></div>
+    </div>
+  </div>`;
+  el("list-view").innerHTML=h;
+}
+
+/* ═══════════════════════════════════════
+   6. 학습 렌더 (셸)
+═══════════════════════════════════════ */
+function renderStudy(){
+  const modeList = [
+    {id:"read",  label:"👁 읽기"},
+    {id:"blanks",label:"✏️ 단어 빈칸"},
+    {id:"first", label:"🔤 첫글자"},
+    {id:"line",  label:"📝 줄 빈칸"},
+    {id:"weak",  label:"⚠️ 취약점"},
+  ];
+  let tabs="";
+  modeList.forEach(m=>{
+    const act = m.id===currentMode;
+    const wk  = m.id==="weak"&&act?" weak":"";
+    tabs+=`<button onclick="switchMode('${m.id}')" class="${act?"active"+wk:""}">${m.label}</button>`;
+  });
+
+  el("study-view").innerHTML=`
+    <div style="font-size:1.1rem;font-weight:700;color:#fcd34d;margin-bottom:4px;line-height:1.3">${currentSong.title}</div>
+    <div id="mode-tabs">${tabs}</div>
+    <div id="mode-body"></div>`;
+  renderModeBody();
+}
+
+function switchMode(m){
+  currentMode=m; seed=Date.now();
+  // 탭 업데이트
+  const btns = el("mode-tabs").querySelectorAll("button");
+  const ids  = ["read","blanks","first","line","weak"];
+  btns.forEach((b,i)=>{
+    const isAct = ids[i]===m;
+    b.className = isAct?(ids[i]==="weak"?"active weak":"active"):"";
+  });
+  renderModeBody();
+}
+
+/* ═══════════════════════════════════════
+   7. 모드별 렌더
+═══════════════════════════════════════ */
+function renderModeBody(){
+  const body = el("mode-body");
+  if(!body) return;
+  if(currentMode==="read")   body.innerHTML = renderRead();
+  if(currentMode==="blanks") body.innerHTML = renderBlanks();
+  if(currentMode==="first")  body.innerHTML = renderFirst();
+  if(currentMode==="line")   body.innerHTML = renderLine();
+  if(currentMode==="weak")   body.innerHTML = renderWeak();
+  // 이벤트 바인딩
+  if(currentMode==="blanks") bindBlanks();
+  if(currentMode==="line")   bindLine();
+}
+
+/* ─── 읽기 ─── */
+function renderRead(){
+  return currentSong.verses.map(v=>`
+    <div class="card"><span class="vtag">${v.label}</span>
+    ${v.lines.map(l=>`<p style="margin:4px 0;line-height:1.85;color:rgba(255,255,255,.9)">${l}</p>`).join("")}
+    </div>`).join("");
+}
+
+/* ─── 첫글자 ─── */
+function renderFirst(){
+  return currentSong.verses.map(v=>`
+    <div class="card"><span class="vtag">${v.label}</span>
+    ${v.lines.map(l=>`<p style="margin:4px 0;line-height:1.85;letter-spacing:2px;color:rgba(255,255,255,.72)">
+      ${l.split(" ").map(w=>w[0]+"·".repeat(Math.max(0,w.length-1))).join(" ")}
+    </p>`).join("")}
+    </div>`).join("");
+}
+
+/* ─── 단어 빈칸 ─── */
+function renderBlanks(){
+  let html=`<div id="slider-box">
+    <div class="row">
+      <span>빈칸 비율</span>
+      <span id="blank-rate">${blankRate}%</span>
+    </div>
+    <input type="range" id="blank-slider" min="30" max="90" step="5" value="${blankRate}">
+    <div class="range-hint"><span>30% 쉬움</span><span>90% 어려움</span></div>
+  </div>
+  <button onclick="reshuffleBlanksSeed()" style="background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
+    color:rgba(255,255,255,.8);width:100%;padding:9px;border-radius:8px;font-size:.83rem;font-weight:700;
+    font-family:inherit;cursor:pointer;margin-bottom:14px">🔀 빈칸 위치 새로 섞기</button>`;
+
+  currentSong.verses.forEach((v,vi)=>{
+    html+=`<div class="card" style="margin-bottom:20px">
+      <span class="vtag">${v.label}</span>`;
+    v.lines.forEach((line,li)=>{
+      const words=line.split(" ");
+      const blanks=getBlankIndices(words,li,v.label);
+      html+=`<div style="margin-bottom:8px;line-height:1.8">`;
+      words.forEach((w,wi)=>{
+        if(blanks.has(wi)){
+          const k=`${vi}-${li}-${wi}`;
+          const wd=Math.max(w.length,1)*19+10;
+          html+=`<input class="blank-inp" data-vi="${vi}" data-li="${li}" data-wi="${wi}" data-word="${w.replace(/"/g,'&quot;')}"
+            id="bi-${k}" style="width:${wd}px">`;
+        } else {
+          html+=`<span style="margin:0 2px;color:rgba(255,255,255,.88)">${w}</span>`;
+        }
+      });
+      html+="</div>";
+    });
+    html+=`<button class="grade-btn" onclick="gradeBlanks(${vi})">▷ ${v.label} 채점</button></div>`;
+  });
+  return html;
+}
+
+function bindBlanks(){
+  const slider=el("blank-slider");
+  if(!slider) return;
+  slider.addEventListener("input",e=>{
+    blankRate=parseInt(e.target.value);
+    el("blank-rate").textContent=blankRate+"%";
+    seed=Date.now();
+    renderModeBody();
+  });
+}
+
+function reshuffleBlanksSeed(){
+  seed=Date.now();
+  renderModeBody();
+}
+
+function gradeBlanks(vi){
+  const v=currentSong.verses[vi];
+  v.lines.forEach((line,li)=>{
+    const words=line.split(" ");
+    const blanks=getBlankIndices(words,li,v.label);
+    blanks.forEach(wi=>{
+      const inp=el(`bi-${vi}-${li}-${wi}`);
+      if(!inp) return;
+      const correct=clean(inp.value)===clean(words[wi]);
+      inp.className="blank-inp "+(correct?"ok":"ng");
+      if(!correct) logMistake(v.label,li,wi,words[wi]);
+    });
+  });
+}
+
+/* ─── 줄 빈칸 ─── */
+function renderLine(){
+  let html=`<button onclick="reshuffleLineSeed()" style="background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
+    color:rgba(255,255,255,.8);width:100%;padding:9px;border-radius:8px;font-size:.83rem;font-weight:700;
+    font-family:inherit;cursor:pointer;margin-bottom:14px">🔀 숨길 줄 다시 섞기</button>`;
+
+  currentSong.verses.forEach((v,vi)=>{
+    const hidden=getHiddenLines(v.lines,vi);
+    html+=`<div class="card"><span class="vtag">${v.label}</span>`;
+    v.lines.forEach((line,li)=>{
+      if(hidden.has(li)){
+        html+=`<input class="line-inp" id="li-${vi}-${li}" data-vi="${vi}" data-li="${li}" data-answer="${line.replace(/"/g,'&quot;')}"
+          placeholder="이 줄을 입력하세요" onblur="checkLineInp(this)">`;
+      } else {
+        html+=`<p class="line-hint">${line}</p>`;
+      }
+    });
+    html+="</div>";
+  });
+  return html;
+}
+
+function bindLine(){}
+
+function checkLineInp(inp){
+  const v   = currentSong.verses[+inp.dataset.vi];
+  const li  = +inp.dataset.li;
+  const ans = inp.dataset.answer;
+  const ok  = inp.value.trim()!=="" && clean(inp.value)===clean(ans);
+  inp.className="line-inp "+(ok?"ok":"ng");
+  if(!ok && inp.value.trim()!=="") logMistake(v.label,li,null,null);
+}
+
+function reshuffleLineSeed(){
+  seed=Date.now(); renderModeBody();
+}
+
+/* ─── 취약점 ─── */
+function renderWeak(){
+  const songMistakes = Object.entries(mistakes).filter(([k])=>k.startsWith(currentSong.id+"|"));
+  if(!songMistakes.length)
+    return `<div class="no-weak">😊 아직 오답 기록이 없어요!<br><small style="color:rgba(255,255,255,.3)">단어·줄 빈칸 모드에서 채점하면 기록이 쌓여요.</small></div>`;
+
+  let html=`<div style="color:#f87171;font-weight:700;margin-bottom:14px;font-size:.9rem">⚠️ 나의 취약 구간</div>`;
+  currentSong.verses.forEach(v=>{
+    html+=`<div class="card"><span class="vtag">${v.label}</span>`;
+    v.lines.forEach((line,li)=>{
+      const lineKey=`${currentSong.id}|${v.label}|${li}|line`;
+      const lineCnt=mistakes[lineKey]?.count||0;
+      const lvCls=getLvClass(lineCnt,true);
+      html+=`<p style="margin:6px 0;line-height:1.65" class="${lvCls}">`;
+      line.split(" ").forEach((word,wi)=>{
+        const k=`${currentSong.id}|${v.label}|${li}|${wi}`;
+        const cnt=mistakes[k]?.count||0;
+        html+=`<span class="${getLvClass(cnt)}" style="margin-right:4px">${word}</span>`;
+      });
+      html+="</p>";
+    });
+    html+="</div>";
+  });
+  html+=`<button onclick="clearMistakes()" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);
+    color:#f87171;width:100%;padding:9px;border-radius:8px;font-size:.82rem;font-weight:700;
+    font-family:inherit;cursor:pointer;margin-top:6px">🗑 이 곡 오답 초기화</button>`;
+  return html;
+}
+
+function clearMistakes(){
+  if(!confirm("이 곡의 오답 기록을 모두 삭제할까요?")) return;
+  const prefix=currentSong.id+"|";
+  Object.keys(mistakes).forEach(k=>{ if(k.startsWith(prefix)) delete mistakes[k]; });
+  saveMistakes();
+  renderModeBody();
+}
+
+/* ═══════════════════════════════════════
+   8. 초기 렌더
+═══════════════════════════════════════ */
+showList();
+</script>
+</body>
+</html>
