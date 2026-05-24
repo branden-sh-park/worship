@@ -9,7 +9,7 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;padding:0 0 60px;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
     background:linear-gradient(160deg,#0f0c29,#1a1040,#0d1b3e);min-height:100vh;color:#fff}
- 
+
   /* 공통 */
   .wrap{max-width:650px;margin:0 auto;padding:0 14px}
   .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;margin-bottom:12px}
@@ -18,7 +18,7 @@
   .btn:active{opacity:.75}
   .inp{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:5px;
     color:#fff;padding:6px 10px;outline:none;font-family:inherit;font-size:.92rem}
- 
+
   /* 헤더 */
   #header{background:rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border-bottom:1px solid rgba(255,255,255,.08);padding:14px 18px 11px;
@@ -27,7 +27,7 @@
   #header .sub{font-size:.58rem;color:rgba(255,255,255,.3);letter-spacing:1.5px;margin-top:1px}
   #back-btn{display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
     color:rgba(255,255,255,.65);padding:6px 13px;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer}
- 
+
   /* 목록 */
   #list-view .song-card{display:flex;justify-content:space-between;align-items:center;cursor:pointer;
     padding:15px 18px;border-radius:12px;background:rgba(255,255,255,.04);
@@ -36,14 +36,14 @@
   .song-title{font-weight:600;font-size:.97rem;color:#fff}
   .song-sub{font-size:.7rem;color:rgba(255,255,255,.38);margin-top:3px}
   .arrow{color:#fcd34d;font-size:1.1rem}
- 
+
   /* 모드 탭 */
   #mode-tabs{display:flex;gap:5px;flex-wrap:wrap;margin:14px 0}
   #mode-tabs button{flex:1 0 30%;font-size:.78rem;padding:9px 4px;
     background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1);border-radius:8px}
   #mode-tabs button.active{background:#fcd34d;color:#1a0f00;border-color:#fcd34d}
   #mode-tabs button.active.weak{background:#f87171;border-color:#f87171;color:#fff}
- 
+
   /* 슬라이더 */
   #slider-box{background:rgba(255,255,255,.07);border:1px solid rgba(252,211,77,.3);
     border-radius:10px;padding:13px 16px;margin-bottom:16px}
@@ -51,14 +51,14 @@
   #blank-rate{color:#fcd34d;font-weight:700;font-size:.95rem}
   input[type=range]{width:100%;accent-color:#fcd34d;cursor:pointer}
   .range-hint{display:flex;justify-content:space-between;font-size:.65rem;color:rgba(255,255,255,.3);margin-top:3px}
- 
+
   /* 빈칸 입력 */
   .blank-inp{display:inline-block;vertical-align:middle;margin:0 3px 2px;height:28px;
     background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.25);
     border-radius:4px;color:#fff;padding:0 5px;font-size:.9rem;font-family:inherit;outline:none;text-align:center}
   .blank-inp.ok{border-color:#4ade80;background:rgba(74,222,128,.12)}
   .blank-inp.ng{border-color:#f87171;background:rgba(248,113,113,.12)}
- 
+
   /* 줄 입력 */
   .line-inp{width:97%;display:block;margin:4px 0;padding:7px 10px;background:rgba(255,255,255,.07);
     border:1px solid rgba(255,255,255,.18);border-radius:6px;color:#fff;font-size:.9rem;
@@ -66,7 +66,7 @@
   .line-inp.ok{border-color:#4ade80}
   .line-inp.ng{border-color:#f87171}
   .line-hint{color:rgba(255,255,255,.45);margin:4px 0;font-size:.88rem}
- 
+
   /* 취약점 */
   .lv-1{background:rgba(253,224,71,.35);border-radius:3px;padding:0 2px}
   .lv-2{background:rgba(251,146,60,.55);border-radius:3px;padding:0 2px}
@@ -74,12 +74,12 @@
   .line-lv-1{border-bottom:2px solid #fde047}
   .line-lv-2{border-bottom:2px solid #fb923c}
   .line-lv-3{border-bottom:3px solid #f87171;font-weight:700}
- 
+
   /* 채점 버튼 */
   .grade-btn{background:#333;color:#fcd34d;width:100%;margin-top:10px;padding:9px;border-radius:8px;
     border:none;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit}
   .grade-btn:active{opacity:.75}
- 
+
   /* 과학 박스 */
   .sci-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
   .sci-item{padding:10px;background:rgba(255,255,255,.03);border-radius:8px}
@@ -88,13 +88,13 @@
   .tip-box{background:rgba(252,211,77,.06);border:1px solid rgba(252,211,77,.17);
     border-radius:10px;padding:11px 14px;margin-bottom:18px;font-size:.8rem;
     color:rgba(255,255,255,.62);line-height:1.6}
- 
+
   /* 취약점 없을때 */
   .no-weak{text-align:center;padding:30px 0;color:rgba(255,255,255,.35);font-size:.9rem;line-height:2}
 </style>
 </head>
 <body>
- 
+
 <!-- 헤더 -->
 <div id="header">
   <div onclick="showList()">
@@ -103,41 +103,24 @@
   </div>
   <button id="back-btn" onclick="showList()">← 목록</button>
 </div>
- 
+
 <!-- 목록 뷰 -->
 <div id="list-view" class="wrap" style="padding-top:18px"></div>
- 
+
 <!-- 학습 뷰 -->
 <div id="study-view" class="wrap" style="display:none;padding-top:14px"></div>
- 
+
 <script>
 /* ═══════════════════════════════════════
    1. 데이터
 ═══════════════════════════════════════ */
 const SONGS = [
-  { id:81, title:"81장 — 주는 귀한 보배", verses:[
-    {label:"1절", lines:[
-      "주는 귀한 보배 참기쁨의 근원 참된 내 친구",
-      "갈급한 내 마음 주를 사모하여 목이 탑니다",
-      "흠이 없는 어린 양 그 품 안에 괴롬없어 더 바랄것 없네"
-    ]},
-    {label:"2절", lines:[
-      "주의 품에 안겨 편히 쉬는 나를 누가 해치랴",
-      "땅이 흔들리고 모두 떨지라도 겁낼것 없네",
-      "죄와 지옥 물결이 우리들을 덮치어도 주는 피난처라"
-    ]},
-    {label:"3절", lines:[
-      "기쁨의 주 예수 우리 함께하니 슬픔 없어라",
-      "하나님의 자녀 폭풍 속에서도 평화로워라",
-      "무슨일을 만나도 주 안에는 기쁨있네 주는 나의 보배 아멘"
-    ]}
-  ]},
   { id:430, title:"430장 — 주와 같이 길 가는 것", verses:[
     {label:"1절", lines:["주와 같이 길 가는 것 즐거운 일 아닌가","우리 주님 걸어가신 발자취를 밟겠네"]},
     {label:"후렴", lines:["한 걸음 한 걸음 주 예수와 함께","날마다 날마다 우리 걸어가리"]},
-    {label:"2절", lines:["어린 아이 같은 우리 미련하고 약하나","주의 손에 이끌리어 생명길로 가겠네"]},
-    {label:"3절", lines:["꽃이 피는 들판이나 험한 골짜기라도","주가 인도하는 대로 주와같이 가겠네"]},
-    {label:"4절", lines:["옛 선지자 에녹같이 우리들도 천국에","들려 올라갈 때까지 주와같이 걷겠네"]}
+    {label:"2절", lines:["어린 아이 같은 우리 미련하고 약하나","주의 손에 이끌리어 생명 길로 가겠네"]},
+    {label:"3절", lines:["꽃이 피는 들판이나 험한 골짜기라도","주가 인도하는 대로 주와 같이 가겠네"]},
+    {label:"4절", lines:["옛선지자 에녹같이 우리들도 천국에","들려 올라갈 때까지 주와같이 가겠네"]}
   ]},
   { id:94, title:"94장 — 주 예수보다 더 귀한 것은 없네", verses:[
     {label:"1절", lines:["주 예수보다 더 귀한 것은 없네 이 세상 부귀와 바꿀 수 없네","영 죽은 내 대신 돌아가신 그 놀라운 사랑 잊지 못해"]},
@@ -147,57 +130,101 @@ const SONGS = [
   ]},
   { id:265, title:"265장 — 주 십자가를 지심으로", verses:[
     {label:"1절", lines:[
-      "주 십자가를 지심으로","죄인을 구속하셨으니",
-      "그 피를 보고 믿는자는","주님의 진노 면하겠네"
-    ]},
-    {label:"2절", lines:[
-      "흉악한 죄인 괴수라도","예수는 능히 구원하네",
-      "온 몸을 피에 담글 때에","주님의 진노 면하겠네"
-    ]},
-    {label:"3절", lines:[
-      "심판할 때에 모든 백성","행한 일대로 보응받네",
-      "주님의 피로 죄 씻으면","주님의 진노 면하겠네"
-    ]},
-    {label:"4절", lines:[
-      "구주의 사랑 크신 은혜","보혈의 능력 의지하세",
-      "심판의 불이 내릴 때에","주님의 진노 면하겠네"
+      "주 십자가를 지심으로 죄인을 구속하셨으니",
+      "그 피를 보고 믿는자는 주님의 진노 면하겠네"
     ]},
     {label:"후렴", lines:[
-      "내가 그 피를","유월절 그 양의 피를 볼 때에",
+      "내가 그 피를 유월절 그 양의 피를 볼 때에",
       "내가 널 넘어서 가리라(가리라)"
+    ]},
+    {label:"2절", lines:[
+      "흉악한 죄인 괴수라도 예수는 능히 구원하네",
+      "온 몸을 피에 담글 때에 주님의 진노 면하겠네"
+    ]},
+    {label:"3절", lines:[
+      "심판할 때에 모든 백성 행한 일대로 보응받네",
+      "주님의 피로 죄 씻으면 주님의 진노 면하겠네"
+    ]},
+    {label:"4절", lines:[
+      "구주의 사랑 크신 은혜 보혈의 능력 의지하세",
+      "심판의 불이 내릴 때에 주님의 진노 면하겠네"
+    ]}
+  ]},
+  { id:391, title:"391장 — 오 놀라운 구세주", verses:[
+    {label:"1절", lines:[
+      "오 놀라운 구세주 예수 내 주 참 능력의 주시로다",
+      "큰 바위 밑 안전한 그 곳으로 내 영혼을 숨기시네"
+    ]},
+    {label:"후렴", lines:[
+      "메마른 땅을 종일 걸어가도 나 피곤치 아니하며 저 위험한 곳",
+      "내가 이를 때면 큰 바위에 숨기시고 주 손으로 덮으시네"
+    ]},
+    {label:"2절", lines:[
+      "오 놀라운 구세주 예수 내 주 내 모든 짐 벗기시네",
+      "죄악에서 날 끌어 올리시며 또 나에게 힘 주시네"
+    ]},
+    {label:"3절", lines:[
+      "측량 못할 은혜로 채우시며 늘 성령의 감화 주사",
+      "큰 기쁨 중 주님을 찬양토록 내 믿음을 도우시네"
+    ]},
+    {label:"4절", lines:[
+      "주 예수님 공중에 임하실 때 나 일어나 맞이하리",
+      "그 구원의 은총을 노래하리 저 천군과 천사 함께"
+    ]}
+  ]},
+  { id:542, title:"542장 — 구주 예수 의지함이", verses:[
+    {label:"1절", lines:[
+      "구주 예수 의지함이 심히 기쁜 일일세",
+      "영생 허락 받았으니 의심 아주 없도다"
+    ]},
+    {label:"후렴", lines:[
+      "예수 예수 믿는 것은 받은 증거 많도다",
+      "예수 예수 귀한 예수 믿음 더욱 주소서 아멘"
+    ]},
+    {label:"2절", lines:[
+      "구주 예수 의지함이 심히 기쁜 일일세",
+      "주를 믿는 나의 마음 그의 피에 적시네"
+    ]},
+    {label:"3절", lines:[
+      "구주 예수 의지하여 죄악 벗어 버리네",
+      "안위 받고 영생함을 주께 모두 얻었네"
+    ]},
+    {label:"4절", lines:[
+      "구주 예수 의지하여 구원함을 얻었네",
+      "영원 무궁 지나도록 주여 함께 하소서"
     ]}
   ]},
   { id:412, title:"412장 — 내 영혼의 그윽히 깊은 데서", verses:[
     {label:"1절", lines:[
-      "내 영혼의 그윽히 깊은데서","맑은 가락이 울려나네",
-      "하늘 곡조가 언제나 흘러나와","내 영혼을 고이 싸네"
+      "내 영혼의 그윽히 깊은데서 맑은 가락이 울려나네",
+      "하늘 곡조가 언제나 흘러나와 내 영혼을 고이 싸네"
     ]},
     {label:"후렴", lines:[
       "평화 평화로다 하늘 위에서 내려오네",
       "그 사랑의 물결이 영원토록 내 영혼을 덮으소서"
     ]},
     {label:"2절", lines:[
-      "내 맘속에 솟아난 이 평화는","깊이 묻히인 보배로다",
-      "나의 보화를 캐내어 가져갈 자","그 아무도 없으리라"
+      "내 맘속에 솟아난 이 평화는 깊이 묻히인 보배로다",
+      "나의 보화를 캐내어 가져갈 자 그 아무도 없으리라"
     ]},
     {label:"3절", lines:[
-      "내 영혼의 평화가 넘쳐남은","주의 큰 복을 받음이라",
-      "내가 주야로 주님과 함께 있어","내 영혼이 편히 쉬네"
+      "내 영혼의 평화가 넘쳐남은 주의 큰 복을 받음이라",
+      "내가 주야로 주님과 함께 있어 내 영혼이 편히 쉬네"
     ]},
     {label:"4절", lines:[
-      "이 땅위의 험한 길 가는 동안","참된 평화가 어디 있나",
-      "우리 모두 다 예수를 친구삼아","참 평화를 누리겠네"
+      "이 땅위의 험한 길 가는 동안 참된 평화가 어디 있나",
+      "우리 모두 다 예수를 친구삼아 참 평화를 누리겠네"
     ]}
   ]},
 ];
- 
+
 const TIPS = [
   "🧠 능동적 회상: 가사를 보는 것보다 직접 떠올리는 게 기억을 3배 강화해요.",
   "📅 간격 반복: 1→3→7→14→30일 간격 복습이 장기기억을 만들어요.",
   "✂️ 청킹: 절·후렴 단위로 나눠 외우면 인지 부하가 크게 줄어요.",
   "✏️ 생성 효과: 직접 쓰고 입력할 때 기억 형성이 훨씬 강해져요.",
 ];
- 
+
 /* ═══════════════════════════════════════
    2. 상태
 ═══════════════════════════════════════ */
@@ -206,18 +233,18 @@ let currentMode = "read";
 let blankRate   = 50;
 let seed        = Date.now();
 let mistakes    = {};
- 
+
 try { const s = localStorage.getItem("hymn_mistakes"); if(s) mistakes = JSON.parse(s); } catch(e){}
 const saveMistakes = () => { try { localStorage.setItem("hymn_mistakes", JSON.stringify(mistakes)); } catch(e){} };
- 
+
 /* ═══════════════════════════════════════
    3. 유틸
 ═══════════════════════════════════════ */
 const clean = s => (s||"").replace(/[.,!?\s]/g,"");
 const el    = id => document.getElementById(id);
- 
+
 function seededRand(s){ s = (s*9301+49297)%233280; return {val:s/233280,s}; }
- 
+
 function getBlankIndices(words, lineIdx, vLabel){
   let s = seed + (vLabel.charCodeAt(0)||0) + lineIdx;
   const idxs = words.map((_,i)=>i);
@@ -230,7 +257,7 @@ function getBlankIndices(words, lineIdx, vLabel){
   }
   return new Set(arr.slice(0, Math.max(1, Math.round(words.length*(blankRate/100)))));
 }
- 
+
 function getHiddenLines(lines, vi){
   let s = seed + vi*997;
   const arr = lines.map((_,i)=>i);
@@ -241,14 +268,14 @@ function getHiddenLines(lines, vi){
   }
   return new Set(arr.slice(0,Math.ceil(lines.length/2)));
 }
- 
+
 function getLvClass(n,isLine=false){
   if(n>=6) return isLine?"line-lv-3":"lv-3";
   if(n>=4) return isLine?"line-lv-2":"lv-2";
   if(n>=2) return isLine?"line-lv-1":"lv-1";
   return "";
 }
- 
+
 function logMistake(vLabel, li, wi, word){
   if(!currentSong) return;
   const key = `${currentSong.id}|${vLabel}|${li}|${wi===null?"line":wi}`;
@@ -256,7 +283,7 @@ function logMistake(vLabel, li, wi, word){
   mistakes[key].count++;
   saveMistakes();
 }
- 
+
 /* ═══════════════════════════════════════
    4. 뷰 전환
 ═══════════════════════════════════════ */
@@ -267,7 +294,7 @@ function showList(){
   el("back-btn").style.display="none";
   renderList();
 }
- 
+
 function showStudy(song){
   currentSong=song; currentMode="read"; seed=Date.now();
   el("list-view").style.display="none";
@@ -275,7 +302,7 @@ function showStudy(song){
   el("back-btn").style.display="block";
   renderStudy();
 }
- 
+
 /* ═══════════════════════════════════════
    5. 목록 렌더
 ═══════════════════════════════════════ */
@@ -304,7 +331,7 @@ function renderList(){
   </div>`;
   el("list-view").innerHTML=h;
 }
- 
+
 /* ═══════════════════════════════════════
    6. 학습 렌더 (셸)
 ═══════════════════════════════════════ */
@@ -322,14 +349,14 @@ function renderStudy(){
     const wk  = m.id==="weak"&&act?" weak":"";
     tabs+=`<button onclick="switchMode('${m.id}')" class="${act?"active"+wk:""}">${m.label}</button>`;
   });
- 
+
   el("study-view").innerHTML=`
     <div style="font-size:1.1rem;font-weight:700;color:#fcd34d;margin-bottom:4px;line-height:1.3">${currentSong.title}</div>
     <div id="mode-tabs">${tabs}</div>
     <div id="mode-body"></div>`;
   renderModeBody();
 }
- 
+
 function switchMode(m){
   currentMode=m; seed=Date.now();
   // 탭 업데이트
@@ -341,7 +368,7 @@ function switchMode(m){
   });
   renderModeBody();
 }
- 
+
 /* ═══════════════════════════════════════
    7. 모드별 렌더
 ═══════════════════════════════════════ */
@@ -357,7 +384,7 @@ function renderModeBody(){
   if(currentMode==="blanks") bindBlanks();
   if(currentMode==="line")   bindLine();
 }
- 
+
 /* ─── 읽기 ─── */
 function renderRead(){
   return currentSong.verses.map(v=>`
@@ -365,7 +392,7 @@ function renderRead(){
     ${v.lines.map(l=>`<p style="margin:4px 0;line-height:1.85;color:rgba(255,255,255,.9)">${l}</p>`).join("")}
     </div>`).join("");
 }
- 
+
 /* ─── 첫글자 ─── */
 function renderFirst(){
   return currentSong.verses.map(v=>`
@@ -375,7 +402,7 @@ function renderFirst(){
     </p>`).join("")}
     </div>`).join("");
 }
- 
+
 /* ─── 단어 빈칸 ─── */
 function renderBlanks(){
   let html=`<div id="slider-box">
@@ -389,7 +416,7 @@ function renderBlanks(){
   <button onclick="reshuffleBlanksSeed()" style="background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
     color:rgba(255,255,255,.8);width:100%;padding:9px;border-radius:8px;font-size:.83rem;font-weight:700;
     font-family:inherit;cursor:pointer;margin-bottom:14px">🔀 빈칸 위치 새로 섞기</button>`;
- 
+
   currentSong.verses.forEach((v,vi)=>{
     html+=`<div class="card" style="margin-bottom:20px">
       <span class="vtag">${v.label}</span>`;
@@ -413,7 +440,7 @@ function renderBlanks(){
   });
   return html;
 }
- 
+
 function bindBlanks(){
   const slider=el("blank-slider");
   if(!slider) return;
@@ -424,12 +451,12 @@ function bindBlanks(){
     renderModeBody();
   });
 }
- 
+
 function reshuffleBlanksSeed(){
   seed=Date.now();
   renderModeBody();
 }
- 
+
 function gradeBlanks(vi){
   const v=currentSong.verses[vi];
   v.lines.forEach((line,li)=>{
@@ -444,13 +471,13 @@ function gradeBlanks(vi){
     });
   });
 }
- 
+
 /* ─── 줄 빈칸 ─── */
 function renderLine(){
   let html=`<button onclick="reshuffleLineSeed()" style="background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
     color:rgba(255,255,255,.8);width:100%;padding:9px;border-radius:8px;font-size:.83rem;font-weight:700;
     font-family:inherit;cursor:pointer;margin-bottom:14px">🔀 숨길 줄 다시 섞기</button>`;
- 
+
   currentSong.verses.forEach((v,vi)=>{
     const hidden=getHiddenLines(v.lines,vi);
     html+=`<div class="card"><span class="vtag">${v.label}</span>`;
@@ -466,9 +493,9 @@ function renderLine(){
   });
   return html;
 }
- 
+
 function bindLine(){}
- 
+
 function checkLineInp(inp){
   const v   = currentSong.verses[+inp.dataset.vi];
   const li  = +inp.dataset.li;
@@ -477,17 +504,17 @@ function checkLineInp(inp){
   inp.className="line-inp "+(ok?"ok":"ng");
   if(!ok && inp.value.trim()!=="") logMistake(v.label,li,null,null);
 }
- 
+
 function reshuffleLineSeed(){
   seed=Date.now(); renderModeBody();
 }
- 
+
 /* ─── 취약점 ─── */
 function renderWeak(){
   const songMistakes = Object.entries(mistakes).filter(([k])=>k.startsWith(currentSong.id+"|"));
   if(!songMistakes.length)
     return `<div class="no-weak">😊 아직 오답 기록이 없어요!<br><small style="color:rgba(255,255,255,.3)">단어·줄 빈칸 모드에서 채점하면 기록이 쌓여요.</small></div>`;
- 
+
   let html=`<div style="color:#f87171;font-weight:700;margin-bottom:14px;font-size:.9rem">⚠️ 나의 취약 구간</div>`;
   currentSong.verses.forEach(v=>{
     html+=`<div class="card"><span class="vtag">${v.label}</span>`;
@@ -510,7 +537,7 @@ function renderWeak(){
     font-family:inherit;cursor:pointer;margin-top:6px">🗑 이 곡 오답 초기화</button>`;
   return html;
 }
- 
+
 function clearMistakes(){
   if(!confirm("이 곡의 오답 기록을 모두 삭제할까요?")) return;
   const prefix=currentSong.id+"|";
@@ -518,7 +545,7 @@ function clearMistakes(){
   saveMistakes();
   renderModeBody();
 }
- 
+
 /* ═══════════════════════════════════════
    8. 초기 렌더
 ═══════════════════════════════════════ */
@@ -526,7 +553,3 @@ showList();
 </script>
 </body>
 </html>
- 
-
-
-
